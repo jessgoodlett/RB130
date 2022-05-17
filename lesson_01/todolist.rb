@@ -103,6 +103,13 @@ class TodoList
 
   def each
     todos.each { |todo| yield(todo) }
+    self
+  end
+
+  def select
+    list = TodoList.new(title)
+    each { |todo| list.add(todo) if yield(todo) }
+    list
   end
 
   private
@@ -110,7 +117,7 @@ class TodoList
   attr_reader :todos
 end
 
-# test case for each alias_method
+# test case for select method
 todo1 = Todo.new("Buy milk")
 todo2 = Todo.new("Clean room")
 todo3 = Todo.new("Go to gym")
@@ -120,6 +127,8 @@ list.add(todo1)
 list.add(todo2)
 list.add(todo3)
 
-list.each do |todo|
-  puts todo                   # calls Todo#to_s
-end
+todo1.done!
+
+results = list.select { |todo| todo.done? }    # you need to implement this method
+
+puts results.inspect
