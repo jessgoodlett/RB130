@@ -92,7 +92,8 @@ class TodoList
   end
 
   def remove_at(idx)
-    todos.delete_at(item_at(idx))
+    raise IndexError if idx >= size || idx < -size
+    todos.delete_at(idx)
   end
 
   def to_s
